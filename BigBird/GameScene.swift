@@ -11,11 +11,17 @@ import SpriteKit
 class GameScene: SKScene {
     
     var energy:CGFloat = 100
+    var distance:Int = 0
+    var maxDistance:Int = 0
+    
     var background = SKSpriteNode()
     var bird = SKSpriteNode()
     var water = SKSpriteNode()
     var tornato = SKSpriteNode()
-    
+    var fish1 = SKSpriteNode()
+    var fish2 = SKSpriteNode()
+    var distanceLabel = SKLabelNode()
+    var maxDistanceLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
         setupBackground()
@@ -24,6 +30,18 @@ class GameScene: SKScene {
         sun.position = CGPointMake(frame.width/2 - UIScreen.mainScreen().bounds.width/2 + 30, frame.height - 50)
         sun.zPosition = -1
         addChild(sun)
+        
+        distanceLabel.text = "当前:0M"
+        distanceLabel.fontSize = 20
+        distanceLabel.fontName = "PingFang SC"
+        distanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 30)
+        addChild(distanceLabel)
+        
+        maxDistanceLabel.text = "当前:0M"
+        maxDistanceLabel.fontSize = 20
+        maxDistanceLabel.fontName = "PingFang SC"
+        maxDistanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 60)
+        addChild(maxDistanceLabel)
         
         setupBird()
         setupTornato()
@@ -82,25 +100,66 @@ class GameScene: SKScene {
         bird.runAction(flyForever)
         bird.physicsBody = SKPhysicsBody(circleOfRadius: birdTexture1.size().height/2)
         bird.physicsBody?.dynamic = true
+        bird.physicsBody?.allowsRotation = false
         addChild(bird)
         
     }
     
     func setupTornato(){
+        distance += 5
+        distanceLabel.text = "当前:"+"\(distance)"+"M"
+        maxDistance = max(maxDistance,distance)
+        maxDistanceLabel.text = "最高:"+"\(maxDistance)"+"M"
         
-            let offset = CGFloat(arc4random_uniform(UInt32(frame.height/2.5))) - frame.height/5
-            let tornatoTexture = SKTexture(imageNamed: "tornado")
-            let moveTornato = SKAction.moveByX(-frame.width * 2, y: 0, duration:NSTimeInterval(frame.width/100))
-            let removeTornato = SKAction.removeFromParent()
-            let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
-            tornato = SKSpriteNode(texture: tornatoTexture)
-            tornato.position = CGPointMake(CGRectGetMidX(frame) + frame.width, CGRectGetMidY(frame) + offset)
-            tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture.size())
-            tornato.physicsBody?.dynamic = false
-            tornato.runAction(moveAndRemovePies)
-            addChild(tornato)
-
+        let offset = CGFloat(arc4random_uniform(UInt32(frame.height/2.5))) - frame.height/5
+        let tornatoTexture = SKTexture(imageNamed: "tornado")
+        let moveTornato = SKAction.moveByX(-frame.width * 2, y: 0, duration:NSTimeInterval(frame.width/100))
+        let removeTornato = SKAction.removeFromParent()
+        let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
+        tornato = SKSpriteNode(texture: tornatoTexture)
+        tornato.position = CGPointMake(CGRectGetMidX(frame) + frame.width, CGRectGetMidY(frame) + offset)
+        tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture.size())
+        tornato.physicsBody?.dynamic = false
+        tornato.runAction(moveAndRemovePies)
+        addChild(tornato)
+        for _ in 0...1{
+            setupFish1()
+            setupFish2()
+        }
     }
+    
+    func setupFish1(){
+        let offsetY = CGFloat(arc4random_uniform(100))
+        let randomDuration = NSTimeInterval(arc4random_uniform(12))
+        let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
+        let Fish1Texture = SKTexture(imageNamed: "fish1")
+        let moveTornato = SKAction.moveByX(-frame.width * 3, y: 0, duration:max(10,randomDuration))
+        let removeTornato = SKAction.removeFromParent()
+        let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
+        fish1 = SKSpriteNode(texture: Fish1Texture)
+        fish1.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX , 10 + offsetY)
+        fish1.physicsBody = SKPhysicsBody(rectangleOfSize: Fish1Texture.size())
+        fish1.physicsBody?.dynamic = false
+        fish1.runAction(moveAndRemovePies)
+        addChild(fish1)
+    }
+    
+    func setupFish2(){
+        let offsetY = CGFloat(arc4random_uniform(110))
+        let randomDuration = NSTimeInterval(arc4random_uniform(18))
+        let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
+        let Fish2Texture = SKTexture(imageNamed: "fish2")
+        let moveTornato = SKAction.moveByX(-frame.width * 4, y: 0, duration:max(15,randomDuration))
+        let removeTornato = SKAction.removeFromParent()
+        let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
+        fish2 = SKSpriteNode(texture: Fish2Texture)
+        fish2.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX*2 , 10 + offsetY)
+        fish2.physicsBody = SKPhysicsBody(rectangleOfSize: Fish2Texture.size())
+        fish2.physicsBody?.dynamic = false
+        fish2.runAction(moveAndRemovePies)
+        addChild(fish2)
+    }
+
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        
