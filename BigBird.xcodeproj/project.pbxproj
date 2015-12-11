@@ -14,6 +14,7 @@
 		09384B7C1C147321006773C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09384B7A1C147321006773C1 /* Main.storyboard */; };
 		09384B7E1C147321006773C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09384B7D1C147321006773C1 /* Assets.xcassets */; };
 		09384B811C147321006773C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09384B7F1C147321006773C1 /* LaunchScreen.storyboard */; };
+		099FB3ED1C1B25890025C9C5 /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		09384B7D1C147321006773C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09384B801C147321006773C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		09384B821C147321006773C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				09384B721C147321006773C1 /* AppDelegate.swift */,
 				09384B741C147321006773C1 /* GameScene.sks */,
 				09384B761C147321006773C1 /* GameScene.swift */,
+				099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */,
 				09384B781C147321006773C1 /* GameViewController.swift */,
 				09384B7A1C147321006773C1 /* Main.storyboard */,
 				09384B7D1C147321006773C1 /* Assets.xcassets */,
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09384B771C147321006773C1 /* GameScene.swift in Sources */,
+				099FB3ED1C1B25890025C9C5 /* ButtonNode.swift in Sources */,
 				09384B791C147321006773C1 /* GameViewController.swift in Sources */,
 				09384B731C147321006773C1 /* AppDelegate.swift in Sources */,
 			);
@@ -256,6 +260,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BigBird/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Beijing-Gold-Finger-Education-Technology-LLC.BigBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -267,6 +272,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BigBird/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Beijing-Gold-Finger-Education-Technology-LLC.BigBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -292,6 +298,7 @@
 				09384B871C147321006773C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -22,8 +22,10 @@ class GameScene: SKScene {
     var fish2 = SKSpriteNode()
     var distanceLabel = SKLabelNode()
     var maxDistanceLabel = SKLabelNode()
+    var startGameButton:ButtonNode!
     
     override func didMoveToView(view: SKView) {
+        speed = 0
         setupBackground()
         
         let sun = SKSpriteNode(imageNamed: "sun")
@@ -44,7 +46,6 @@ class GameScene: SKScene {
         addChild(maxDistanceLabel)
         
         setupBird()
-        setupTornato()
         
         let bottomBound = SKNode()
         bottomBound.position = CGPointMake(0, 0)
@@ -53,8 +54,20 @@ class GameScene: SKScene {
         addChild(bottomBound)
         
         setupWater()
+        
+        startGameButton = ButtonNode(normalName: "bird2", selectName: "") { () -> () in
+            self.startGame()
+        }
+        startGameButton.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
+        
+        addChild(startGameButton)
+    }
+    
+    func startGame(){  
+        startGameButton.removeFromParent()
         NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
-
+        speed = 1
+        bird.physicsBody?.dynamic = true
     }
     
     func setupBackground(){
@@ -99,7 +112,7 @@ class GameScene: SKScene {
         bird.position = CGPointMake(CGRectGetMidX(frame) - 120, CGRectGetMidY(frame))
         bird.runAction(flyForever)
         bird.physicsBody = SKPhysicsBody(circleOfRadius: birdTexture1.size().height/2)
-        bird.physicsBody?.dynamic = true
+        bird.physicsBody?.dynamic = false
         bird.physicsBody?.allowsRotation = false
         addChild(bird)
         
@@ -162,7 +175,7 @@ class GameScene: SKScene {
 
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       
+        
         bird.physicsBody?.velocity = CGVectorMake(0, 0)
         energy = min(energy,80)
         bird.physicsBody?.applyImpulse(CGVectorMake(0, energy))
