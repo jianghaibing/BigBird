@@ -73,7 +73,15 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         addChild(leaderBoard)
         
         let share = ButtonNode(normalName: "share", selectName: "") { () -> () in
-            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: "566d442b67e58e15870068a8", shareText: "我在玩风狂大鸟，快来跟我一起玩", shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
+            var shareText = ""
+            if self.gameOver{
+                shareText = "我在风狂大鸟中最高飞行了【\(self.bestScore)米】，快来和我比比看吧！"
+            }else{
+                shareText = "我在玩风狂大鸟，快来跟我一起玩！"
+            }
+            
+            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: "566d442b67e58e15870068a8", shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
+            
         }
         share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 160)
         addChild(share)

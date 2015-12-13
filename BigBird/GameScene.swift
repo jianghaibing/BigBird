@@ -13,6 +13,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var energy:Int = 100
     var distance:Int = 0
     var maxDistance:Int = 0
+    var tempMaxDistance:Int = 0//临时保存飞行最高纪录
+    var alredayShowTip = false
     var timer:NSTimer!
     var firstTimePlay = true
 
@@ -45,12 +47,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var progress = SKSpriteNode()
     var energyLabel = SKLabelNode()
     var introduce = SKSpriteNode()
+    var bestSorceTipLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
         self.physicsWorld.contactDelegate = self
         
         maxDistance = NSUserDefaults.standardUserDefaults().objectForKey("maxDistance") as? NSInteger ?? 0
         firstTimePlay = NSUserDefaults.standardUserDefaults().objectForKey("firstTimePlay") as? Bool ?? true
+        tempMaxDistance = maxDistance
         
         setupBackground()
         
@@ -182,6 +186,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         maxDistance = max(maxDistance,distance)
         maxDistanceLabel.text = "最高:"+"\(maxDistance)"+"M"
         
+        if maxDistance > tempMaxDistance && tempMaxDistance != 0 && !alredayShowTip{
+            showBestScoreTip()
+            alredayShowTip = true
+        }
+        
         let offset = CGFloat(arc4random_uniform(UInt32(frame.height/2.5))) - frame.height/5
         let tornatoTexture = SKTexture(imageNamed: "tornado")
         let moveTornato = SKAction.moveByX(-frame.width * 2, y: 0, duration:NSTimeInterval(frame.width/100))
@@ -262,7 +271,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(shark)
     }
     
-
+    func showBestScoreTip(){
+        let pause = SKAction.moveByX(0, y: 0, duration: 5)
+        let remove = SKAction.removeFromParent()
+        bestSorceTipLabel.text = "恭喜你！破纪录了！"
+        bestSorceTipLabel.fontSize = 30
+        bestSorceTipLabel.fontName = "PingFang SC"
+        bestSorceTipLabel.fontColor = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
+        bestSorceTipLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 80)
+        bestSorceTipLabel.runAction(SKAction.sequence([pause,remove]))
+        addChild(bestSorceTipLabel)
+    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if gameStatus == .Ready && !firstTimePlay {
