@@ -12,7 +12,7 @@ import GameKit
 let singleton = GameKitHelper()
 let PresentAuthenticationViewController = "PresentAuthenticationViewController"
 
-class GameKitHelper: NSObject {
+class GameKitHelper: NSObject,GKGameCenterControllerDelegate {
     
     
     var authenticationViewController:UIViewController?
@@ -43,6 +43,39 @@ class GameKitHelper: NSObject {
             }
             
         }
+    }
+    
+    func reportScore(score:Int64,forLeaderBoardId leaderBoardId:String){
+        if !gameCenterEnabled{
+            print("用户没认证")
+            return
+        }
+        
+        let scoreReporter = GKScore(leaderboardIdentifier: leaderBoardId)
+        scoreReporter.value = score
+        scoreReporter.context = 0
+        let scores = [scoreReporter]
+        GKScore.reportScores(scores) { (error) -> Void in
+            self.lastError = error
+        }
+    }
+    
+    func showGKGameCenterViewController(viewController:UIViewController!){
+        if !gameCenterEnabled{
+            print("用户没认证")
+            return
+        }
+        
+        let gameCenterViewController = GKGameCenterViewController()
+        gameCenterViewController.gameCenterDelegate = self
+        gameCenterViewController.viewState = .Leaderboards
+        viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
+        
+        
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
 }

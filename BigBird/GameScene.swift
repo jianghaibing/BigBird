@@ -14,6 +14,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var distance:Int = 0
     var maxDistance:Int = 0
     var timer:NSTimer!
+    var firstTimePlay = true
 
     enum GameStatus:UInt{
         case Ready = 0
@@ -43,11 +44,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var progressBackground = SKSpriteNode()
     var progress = SKSpriteNode()
     var energyLabel = SKLabelNode()
+    var introduce = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         self.physicsWorld.contactDelegate = self
         
         maxDistance = NSUserDefaults.standardUserDefaults().objectForKey("maxDistance") as? NSInteger ?? 0
+        firstTimePlay = NSUserDefaults.standardUserDefaults().objectForKey("firstTimePlay") as? Bool ?? true
         
         setupBackground()
         
@@ -108,7 +111,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(bottomBound)
 
         setupWater()
-        
+        if firstTimePlay{
+            setupIntroduce()
+        }
+    }
+    
+    func setupIntroduce(){
+        introduce = SKSpriteNode(imageNamed: "introduce")
+        introduce.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
+        introduce.zPosition = 10
+        introduce.size.height = frame.size.height
+        addChild(introduce)
     }
     
     func setupBackground(){
@@ -239,6 +252,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let moveAndRemoveShark = SKAction.sequence([moveShark,pauseShark,removeShark])
         shark = SKSpriteNode(texture: sharkTexture)
         shark.position = CGPointMake(CGRectGetMidX(frame) - 120 , -50)
+        shark.zPosition = 1
         shark.physicsBody = SKPhysicsBody(rectangleOfSize: sharkTexture.size())
         shark.physicsBody?.dynamic = false
         shark.runAction(moveAndRemoveShark)
@@ -251,14 +265,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
 
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-        if gameStatus == .Ready {
+        if gameStatus == .Ready && !firstTimePlay {
             gameStatus = .Playing
             bird.physicsBody?.dynamic = true
             startLabel.removeFromParent()
             tapLabel.removeFromParent()
             timer = NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
         }
+
+        if firstTimePlay{
+            firstTimePlay = false
+            introduce.removeFromParent()
+            NSUserDefaults.standardUserDefaults().setBool(firstTimePlay, forKey: "firstTimePlay")
+        }
+        
         if gameStatus == .Playing {
             energy -= 2
             progress.size.width -= 3.6
@@ -266,13 +286,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             bird.physicsBody?.velocity = CGVectorMake(0, 0)
             bird.physicsBody?.applyImpulse(CGVectorMake(0, CGFloat(energy)*0.8))
         }
-        if gameStatus == .Over{
-            
-        }
-        
-        
   
     }
+    
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -300,10 +316,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Object.rawValue || contact.bodyB.categoryBitMask == ColliderType.Object.rawValue{
             if gameStatus != .Over {
                 gameStatus = .Over
+                //当取得最高分时把分数发给排行榜
+                if distance == maxDistance{
+                    GameKitHelper.shareInstance.reportScore(Int64(maxDistance), forLeaderBoardId: "com.baby.big")
+                }
                 timer.invalidate()
                 NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 if let scene = GameStartScene(fileNamed: "GameStartScene"){
+                    scene.currentScore = distance
+                    scene.bestScore = maxDistance
                     scene.gameOver = true
                     scene.scaleMode = .AspectFill
                     let transtion = SKTransition.pushWithDirection(.Down, duration: 0.5)

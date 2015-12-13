@@ -9,8 +9,10 @@
 import UIKit
 import SpriteKit
 
-class GameStartScene: SKScene {
+class GameStartScene: SKScene,UMSocialUIDelegate {
     
+    var currentScore:Int!
+    var bestScore:Int!
     var startGameButton:ButtonNode!
     var gameOver = false
     
@@ -32,6 +34,31 @@ class GameStartScene: SKScene {
             startGameButton.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
             addChild(startGameButton)
         }else {
+            let scoreBoard = SKSpriteNode(imageNamed: "scoreBoard")
+            scoreBoard.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+115)
+            addChild(scoreBoard)
+            
+            let currentScoreLabel = SKLabelNode(fontNamed: "PingFang SC")
+            currentScoreLabel.text = "当前飞行：\(currentScore)M"
+            currentScoreLabel.fontSize = 24
+            currentScoreLabel.fontColor = UIColor.whiteColor()
+            currentScoreLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+127)
+            currentScoreLabel.zPosition = 1
+            addChild(currentScoreLabel)
+            
+            let bestScoreLabel = SKLabelNode(fontNamed: "PingFang SC")
+            bestScoreLabel.text = "最高飞行：\(bestScore)M"
+            bestScoreLabel.fontSize = 24
+            bestScoreLabel.fontColor = UIColor.whiteColor()
+            bestScoreLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+87)
+            bestScoreLabel.zPosition = 1
+            addChild(bestScoreLabel)
+            
+            let gameOver = SKSpriteNode(imageNamed: "gameOver")
+            gameOver.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+215)
+            addChild(gameOver)
+
+            
             let restartGameButton = ButtonNode(normalName: "restartGame", selectName: "") { () -> () in
                 self.startGame()
             }
@@ -40,13 +67,13 @@ class GameStartScene: SKScene {
         }
         
         let leaderBoard = ButtonNode(normalName: "leaderBoard", selectName: "") { () -> () in
-            
+            GameKitHelper.shareInstance.showGKGameCenterViewController(gameViewController)
         }
         leaderBoard.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 80)
         addChild(leaderBoard)
         
         let share = ButtonNode(normalName: "share", selectName: "") { () -> () in
-            
+            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: "566d442b67e58e15870068a8", shareText: "我在玩风狂大鸟，快来跟我一起玩", shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
         }
         share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 160)
         addChild(share)

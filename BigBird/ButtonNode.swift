@@ -45,7 +45,7 @@ class ButtonNode: SKNode {
         } else {
             sprite.texture = selectTexture
         }
-        callback()
+        
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -54,6 +54,6 @@ class ButtonNode: SKNode {
         } else {
             sprite.texture = normalTexture
         }
-
+        callback()
     }
 }
