@@ -8,39 +8,31 @@
 
 import UIKit
 import SpriteKit
+import iAd
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController,ADBannerViewDelegate {
+    
+    var adBannerView:ADBannerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let scene = GameScene(fileNamed:"GameScene") {
+        
+        if let scene = GameStartScene(fileNamed:"GameStartScene") {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-            
+            skView.showsFPS = false
+            skView.showsNodeCount = false
+            adBannerView = ADBannerView(adType: .Banner)
+            adBannerView?.frame.origin = CGPointMake(0, 0)
+            adBannerView?.backgroundColor = UIColor.clearColor()
+            adBannerView?.delegate = self
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
-            
+            skView.addSubview(adBannerView!)
             skView.presentScene(scene)
-        }
-    }
-    
- 
-
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
         }
     }
 
@@ -51,5 +43,13 @@ class GameViewController: UIViewController {
 
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        print("已经载入广告")
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        print(error)
     }
 }

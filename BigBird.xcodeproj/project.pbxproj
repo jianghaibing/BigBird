@@ -15,6 +15,12 @@
 		09384B7E1C147321006773C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09384B7D1C147321006773C1 /* Assets.xcassets */; };
 		09384B811C147321006773C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09384B7F1C147321006773C1 /* LaunchScreen.storyboard */; };
 		099FB3ED1C1B25890025C9C5 /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */; };
+		099FB3F51C1BC2310025C9C5 /* GameStartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099FB3F41C1BC2310025C9C5 /* GameStartScene.swift */; };
+		09A4AE2B1C1C31B600C59952 /* GameStartScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 09A4AE2A1C1C31B600C59952 /* GameStartScene.sks */; };
+		09A4AE2D1C1C633E00C59952 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A4AE2C1C1C633E00C59952 /* iAd.framework */; };
+		09A4AE2F1C1C723600C59952 /* GameKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A4AE2E1C1C723600C59952 /* GameKitHelper.swift */; };
+		09A4AE311C1C764000C59952 /* BigBirdNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A4AE301C1C764000C59952 /* BigBirdNavigationController.swift */; };
+		09A4AE331C1C76F400C59952 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A4AE321C1C76F300C59952 /* GameKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +34,12 @@
 		09384B801C147321006773C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		09384B821C147321006773C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
+		099FB3F41C1BC2310025C9C5 /* GameStartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStartScene.swift; sourceTree = "<group>"; };
+		09A4AE2A1C1C31B600C59952 /* GameStartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameStartScene.sks; sourceTree = "<group>"; };
+		09A4AE2C1C1C633E00C59952 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		09A4AE2E1C1C723600C59952 /* GameKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameKitHelper.swift; sourceTree = "<group>"; };
+		09A4AE301C1C764000C59952 /* BigBirdNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigBirdNavigationController.swift; sourceTree = "<group>"; };
+		09A4AE321C1C76F300C59952 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A4AE2D1C1C633E00C59952 /* iAd.framework in Frameworks */,
+				09A4AE331C1C76F400C59952 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +58,8 @@
 		09384B661C147321006773C1 = {
 			isa = PBXGroup;
 			children = (
+				09A4AE321C1C76F300C59952 /* GameKit.framework */,
+				09A4AE2C1C1C633E00C59952 /* iAd.framework */,
 				09384B711C147321006773C1 /* BigBird */,
 				09384B701C147321006773C1 /* Products */,
 			);
@@ -63,8 +79,12 @@
 				09384B721C147321006773C1 /* AppDelegate.swift */,
 				09384B741C147321006773C1 /* GameScene.sks */,
 				09384B761C147321006773C1 /* GameScene.swift */,
+				099FB3F41C1BC2310025C9C5 /* GameStartScene.swift */,
+				09A4AE2A1C1C31B600C59952 /* GameStartScene.sks */,
 				099FB3EC1C1B25890025C9C5 /* ButtonNode.swift */,
 				09384B781C147321006773C1 /* GameViewController.swift */,
+				09A4AE2E1C1C723600C59952 /* GameKitHelper.swift */,
+				09A4AE301C1C764000C59952 /* BigBirdNavigationController.swift */,
 				09384B7A1C147321006773C1 /* Main.storyboard */,
 				09384B7D1C147321006773C1 /* Assets.xcassets */,
 				09384B7F1C147321006773C1 /* LaunchScreen.storyboard */,
@@ -105,6 +125,12 @@
 				TargetAttributes = {
 					09384B6E1C147321006773C1 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = YNLT3B3J7K;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -135,6 +161,7 @@
 				09384B811C147321006773C1 /* LaunchScreen.storyboard in Resources */,
 				09384B7E1C147321006773C1 /* Assets.xcassets in Resources */,
 				09384B7C1C147321006773C1 /* Main.storyboard in Resources */,
+				09A4AE2B1C1C31B600C59952 /* GameStartScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,9 +172,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09A4AE311C1C764000C59952 /* BigBirdNavigationController.swift in Sources */,
+				099FB3F51C1BC2310025C9C5 /* GameStartScene.swift in Sources */,
 				09384B771C147321006773C1 /* GameScene.swift in Sources */,
 				099FB3ED1C1B25890025C9C5 /* ButtonNode.swift in Sources */,
 				09384B791C147321006773C1 /* GameViewController.swift in Sources */,
+				09A4AE2F1C1C723600C59952 /* GameKitHelper.swift in Sources */,
 				09384B731C147321006773C1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,11 +289,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BigBird/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Beijing-Gold-Finger-Education-Technology-LLC.BigBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -271,11 +304,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BigBird/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Beijing-Gold-Finger-Education-Technology-LLC.BigBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

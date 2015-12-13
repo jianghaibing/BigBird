@@ -8,11 +8,26 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene,SKPhysicsContactDelegate {
     
-    var energy:CGFloat = 100
+    var energy:Int = 100
     var distance:Int = 0
     var maxDistance:Int = 0
+    var timer:NSTimer!
+
+    enum GameStatus:UInt{
+        case Ready = 0
+        case Playing = 1
+        case Over = 2
+    }
+    var gameStatus:GameStatus = .Ready
+    
+    enum ColliderType:UInt32{
+        case Bird = 1
+        case Fish1 = 2
+        case Fish2 = 4
+        case Object = 8
+    }
     
     var background = SKSpriteNode()
     var bird = SKSpriteNode()
@@ -20,13 +35,39 @@ class GameScene: SKScene {
     var tornato = SKSpriteNode()
     var fish1 = SKSpriteNode()
     var fish2 = SKSpriteNode()
+    var shark = SKSpriteNode()
     var distanceLabel = SKLabelNode()
     var maxDistanceLabel = SKLabelNode()
-    var startGameButton:ButtonNode!
+    var startLabel = SKSpriteNode()
+    var tapLabel = SKSpriteNode()
+    var progressBackground = SKSpriteNode()
+    var progress = SKSpriteNode()
+    var energyLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
-        speed = 0
+        self.physicsWorld.contactDelegate = self
+        
+        maxDistance = NSUserDefaults.standardUserDefaults().objectForKey("maxDistance") as? NSInteger ?? 0
+        
         setupBackground()
+        
+        progressBackground.color = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
+        progressBackground.size = CGSizeMake(180, 30)
+        progressBackground.anchorPoint = CGPointMake(0, 1)
+        progressBackground.position = CGPointMake(CGRectGetMidX(frame)-90, frame.height)
+        addChild(progressBackground)
+        
+        progress.color = UIColor(red: 94/255, green: 202/255, blue: 138/255, alpha: 1)
+        progress.size = CGSizeMake(180, 30)
+        progress.anchorPoint = CGPointMake(0, 1)
+        progress.position = CGPointMake(CGRectGetMidX(frame)-90, frame.height)
+        addChild(progress)
+        
+        energyLabel.text = "100/100"
+        energyLabel.fontSize = 20
+        energyLabel.fontName = "PingFang SC"
+        energyLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 22)
+        addChild(energyLabel)
         
         let sun = SKSpriteNode(imageNamed: "sun")
         sun.position = CGPointMake(frame.width/2 - UIScreen.mainScreen().bounds.width/2 + 30, frame.height - 50)
@@ -35,15 +76,25 @@ class GameScene: SKScene {
         
         distanceLabel.text = "当前:0M"
         distanceLabel.fontSize = 20
+        distanceLabel.fontColor = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
         distanceLabel.fontName = "PingFang SC"
-        distanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 30)
+        distanceLabel.position = CGPointMake(CGRectGetMidX(frame)-150, frame.height - 22)
         addChild(distanceLabel)
         
-        maxDistanceLabel.text = "当前:0M"
+        maxDistanceLabel.text = "最高:\(maxDistance)M"
         maxDistanceLabel.fontSize = 20
+        maxDistanceLabel.fontColor = UIColor(red: 82/255, green: 108/255, blue: 147/255, alpha: 1)
         maxDistanceLabel.fontName = "PingFang SC"
-        maxDistanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 60)
+        maxDistanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 22)
         addChild(maxDistanceLabel)
+        
+        startLabel = SKSpriteNode(imageNamed: "start")
+        startLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) + 150)
+        addChild(startLabel)
+        
+        tapLabel = SKSpriteNode(imageNamed: "tap")
+        tapLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
+        addChild(tapLabel)
         
         setupBird()
         
@@ -51,23 +102,13 @@ class GameScene: SKScene {
         bottomBound.position = CGPointMake(0, 0)
         bottomBound.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(frame.width, 1))
         bottomBound.physicsBody?.dynamic = false
+        bottomBound.physicsBody?.categoryBitMask = ColliderType.Object.rawValue
+        bottomBound.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
+        bottomBound.physicsBody?.collisionBitMask = ColliderType.Object.rawValue
         addChild(bottomBound)
-        
+
         setupWater()
         
-        startGameButton = ButtonNode(normalName: "bird2", selectName: "") { () -> () in
-            self.startGame()
-        }
-        startGameButton.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
-        
-        addChild(startGameButton)
-    }
-    
-    func startGame(){  
-        startGameButton.removeFromParent()
-        NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
-        speed = 1
-        bird.physicsBody?.dynamic = true
     }
     
     func setupBackground(){
@@ -114,6 +155,10 @@ class GameScene: SKScene {
         bird.physicsBody = SKPhysicsBody(circleOfRadius: birdTexture1.size().height/2)
         bird.physicsBody?.dynamic = false
         bird.physicsBody?.allowsRotation = false
+        bird.physicsBody?.categoryBitMask = ColliderType.Bird.rawValue
+        bird.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
+        bird.physicsBody?.collisionBitMask = ColliderType.Object.rawValue
+
         addChild(bird)
         
     }
@@ -134,10 +179,17 @@ class GameScene: SKScene {
         tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture.size())
         tornato.physicsBody?.dynamic = false
         tornato.runAction(moveAndRemovePies)
+        tornato.physicsBody?.categoryBitMask = ColliderType.Object.rawValue
+        tornato.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
+        tornato.physicsBody?.collisionBitMask = ColliderType.Object.rawValue
         addChild(tornato)
         for _ in 0...1{
             setupFish1()
             setupFish2()
+        }
+        
+        if distance % 20 == 0 {
+            setupShark()
         }
     }
     
@@ -146,14 +198,17 @@ class GameScene: SKScene {
         let randomDuration = NSTimeInterval(arc4random_uniform(12))
         let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
         let Fish1Texture = SKTexture(imageNamed: "fish1")
-        let moveTornato = SKAction.moveByX(-frame.width * 3, y: 0, duration:max(10,randomDuration))
-        let removeTornato = SKAction.removeFromParent()
-        let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
+        let moveFish = SKAction.moveByX(-frame.width * 3, y: 0, duration:max(10,randomDuration))
+        let removeFish = SKAction.removeFromParent()
+        let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish1 = SKSpriteNode(texture: Fish1Texture)
         fish1.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX , 10 + offsetY)
         fish1.physicsBody = SKPhysicsBody(rectangleOfSize: Fish1Texture.size())
         fish1.physicsBody?.dynamic = false
-        fish1.runAction(moveAndRemovePies)
+        fish1.runAction(moveAndRemoveFish)
+        fish1.physicsBody?.categoryBitMask = ColliderType.Fish1.rawValue
+        fish1.physicsBody?.contactTestBitMask = ColliderType.Bird.rawValue
+        fish1.physicsBody?.collisionBitMask = ColliderType.Fish1.rawValue
         addChild(fish1)
     }
     
@@ -162,31 +217,99 @@ class GameScene: SKScene {
         let randomDuration = NSTimeInterval(arc4random_uniform(18))
         let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
         let Fish2Texture = SKTexture(imageNamed: "fish2")
-        let moveTornato = SKAction.moveByX(-frame.width * 4, y: 0, duration:max(15,randomDuration))
-        let removeTornato = SKAction.removeFromParent()
-        let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
+        let moveFish = SKAction.moveByX(-frame.width * 4, y: 0, duration:max(15,randomDuration))
+        let removeFish = SKAction.removeFromParent()
+        let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish2 = SKSpriteNode(texture: Fish2Texture)
         fish2.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX*2 , 10 + offsetY)
         fish2.physicsBody = SKPhysicsBody(rectangleOfSize: Fish2Texture.size())
         fish2.physicsBody?.dynamic = false
-        fish2.runAction(moveAndRemovePies)
+        fish2.runAction(moveAndRemoveFish)
+        fish2.physicsBody?.categoryBitMask = ColliderType.Fish2.rawValue
+        fish2.physicsBody?.contactTestBitMask = ColliderType.Bird.rawValue
+        fish2.physicsBody?.collisionBitMask = ColliderType.Fish2.rawValue
         addChild(fish2)
     }
+    
+    func setupShark(){
+        let sharkTexture = SKTexture(imageNamed: "shark")
+        let moveShark = SKAction.moveByX(0, y: 100, duration:0.5)
+        let pauseShark = SKAction.moveByX(0, y: 0, duration: 2)
+        let removeShark = SKAction.removeFromParent()
+        let moveAndRemoveShark = SKAction.sequence([moveShark,pauseShark,removeShark])
+        shark = SKSpriteNode(texture: sharkTexture)
+        shark.position = CGPointMake(CGRectGetMidX(frame) - 120 , -50)
+        shark.physicsBody = SKPhysicsBody(rectangleOfSize: sharkTexture.size())
+        shark.physicsBody?.dynamic = false
+        shark.runAction(moveAndRemoveShark)
+        shark.physicsBody?.categoryBitMask = ColliderType.Object.rawValue
+        shark.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
+        shark.physicsBody?.collisionBitMask = ColliderType.Object.rawValue
+        addChild(shark)
+    }
+    
 
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
-        bird.physicsBody?.velocity = CGVectorMake(0, 0)
-        energy = min(energy,80)
-        bird.physicsBody?.applyImpulse(CGVectorMake(0, energy))
-//        if energy > 0 {
-//            energy--
-//        }
+        if gameStatus == .Ready {
+            gameStatus = .Playing
+            bird.physicsBody?.dynamic = true
+            startLabel.removeFromParent()
+            tapLabel.removeFromParent()
+            timer = NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
+        }
+        if gameStatus == .Playing {
+            energy -= 2
+            progress.size.width -= 3.6
+            energyLabel.text = "\(energy)/100"
+            bird.physicsBody?.velocity = CGVectorMake(0, 0)
+            bird.physicsBody?.applyImpulse(CGVectorMake(0, CGFloat(energy)*0.8))
+        }
+        if gameStatus == .Over{
+            
+        }
+        
         
   
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    //MARK: - Contact Delegate
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        if contact.bodyA.categoryBitMask == ColliderType.Fish1.rawValue || contact.bodyB.categoryBitMask == ColliderType.Fish1.rawValue{
+            contact.bodyA.node?.removeFromParent()
+            energy += 10
+            energy = min(energy,100)
+            progress.size.width = min(progress.size.width + 18 , 180)
+            energyLabel.text = "\(energy)/100"
+        }
+        
+        if contact.bodyA.categoryBitMask == ColliderType.Fish2.rawValue || contact.bodyB.categoryBitMask == ColliderType.Fish2.rawValue{
+            contact.bodyA.node?.removeFromParent()
+            energy += 15
+            energy = min(energy,100)
+            progress.size.width = min(progress.size.width + 27 , 180)
+            energyLabel.text = "\(energy)/100"
+        }
+        
+        if contact.bodyA.categoryBitMask == ColliderType.Object.rawValue || contact.bodyB.categoryBitMask == ColliderType.Object.rawValue{
+            if gameStatus != .Over {
+                gameStatus = .Over
+                timer.invalidate()
+                NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                if let scene = GameStartScene(fileNamed: "GameStartScene"){
+                    scene.gameOver = true
+                    scene.scaleMode = .AspectFill
+                    let transtion = SKTransition.pushWithDirection(.Down, duration: 0.5)
+                    view?.presentScene(scene, transition: transtion)
+                }
+            }
+        }
     }
 }
