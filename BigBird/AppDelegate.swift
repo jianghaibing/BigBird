@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UMSocialData.setAppKey("566d442b67e58e15870068a8")
         UMSocialWechatHandler.setWXAppId("wxd930ea5d5a258f4f", appSecret: "db426a9829e4b49a0dcac7b4162da6b6", url: "http://www.umeng.com/social")
         UMSocialQQHandler.setQQWithAppId("1105018640", appKey: "Pi0Hy7t1diZpgmfX", url: "http://www.umeng.com/social")
-        UMSocialSinaSSOHandler.openNewSinaSSOWithAppKey("1172700456", redirectURL: "http://sns.whalecloud.com/sina2/callback")
+        //UMSocialSinaSSOHandler.openNewSinaSSOWithAppKey("1172700456", redirectURL: "http://sns.whalecloud.com/sina2/callback")
         
         UMSocialData.defaultData().extConfig.qqData.url = "http://baidu.com"//设置app下载地址,点击分享内容打开的链接
         UMSocialData.defaultData().extConfig.wechatSessionData.url = "http://baidu.com"

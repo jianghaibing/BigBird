@@ -29,6 +29,12 @@
 		09A4AE441C1D7FDC00C59952 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A4AE431C1D7FDC00C59952 /* CoreTelephony.framework */; };
 		09A4AE461C1D7FEE00C59952 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A4AE451C1D7FEE00C59952 /* libstdc++.tbd */; };
 		09A4AE481C1D7FF400C59952 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A4AE471C1D7FF400C59952 /* libz.tbd */; };
+		09FBD3631C1F0A210079A9F8 /* wind-Intermed-481_hifi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD3621C1F0A210079A9F8 /* wind-Intermed-481_hifi.mp3 */; };
+		09FBD3651C1F0EFF0079A9F8 /* CRUNCH_I-Intermed-566_hifi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD3641C1F0EFF0079A9F8 /* CRUNCH_I-Intermed-566_hifi.mp3 */; };
+		09FBD3671C1F10890079A9F8 /* BubblePo-Benjamin-8920_hifi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD3661C1F10890079A9F8 /* BubblePo-Benjamin-8920_hifi.mp3 */; };
+		09FBD3691C1F13D00079A9F8 /* Oowh_Pai-Nathan_H-7830_hifi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD3681C1F13D00079A9F8 /* Oowh_Pai-Nathan_H-7830_hifi.mp3 */; };
+		09FBD36B1C1F148B0079A9F8 /* Floomp-Public_D-340_hifi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD36A1C1F148B0079A9F8 /* Floomp-Public_D-340_hifi.mp3 */; };
+		09FBD36D1C1F16730079A9F8 /* handclap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 09FBD36C1C1F16730079A9F8 /* handclap.wav */; };
 		0B816B80EBE2CB130DDA1EF1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DE1AEEF847FEFDA568B77D /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +64,12 @@
 		09A4AE431C1D7FDC00C59952 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		09A4AE451C1D7FEE00C59952 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		09A4AE471C1D7FF400C59952 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		09FBD3621C1F0A210079A9F8 /* wind-Intermed-481_hifi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "wind-Intermed-481_hifi.mp3"; sourceTree = "<group>"; };
+		09FBD3641C1F0EFF0079A9F8 /* CRUNCH_I-Intermed-566_hifi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "CRUNCH_I-Intermed-566_hifi.mp3"; sourceTree = "<group>"; };
+		09FBD3661C1F10890079A9F8 /* BubblePo-Benjamin-8920_hifi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "BubblePo-Benjamin-8920_hifi.mp3"; sourceTree = "<group>"; };
+		09FBD3681C1F13D00079A9F8 /* Oowh_Pai-Nathan_H-7830_hifi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Oowh_Pai-Nathan_H-7830_hifi.mp3"; sourceTree = "<group>"; };
+		09FBD36A1C1F148B0079A9F8 /* Floomp-Public_D-340_hifi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Floomp-Public_D-340_hifi.mp3"; sourceTree = "<group>"; };
+		09FBD36C1C1F16730079A9F8 /* handclap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = handclap.wav; sourceTree = "<group>"; };
 		31DE1AEEF847FEFDA568B77D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F4289AFED5E48FEEF47ECC /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		4216B243F836477518698BB5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,6 +120,7 @@
 		09384B711C147321006773C1 /* BigBird */ = {
 			isa = PBXGroup;
 			children = (
+				09FBD3611C1F0A0B0079A9F8 /* sound */,
 				09384B721C147321006773C1 /* AppDelegate.swift */,
 				09384B741C147321006773C1 /* GameScene.sks */,
 				09384B761C147321006773C1 /* GameScene.swift */,
@@ -124,6 +137,19 @@
 				09A4AE361C1D7EB900C59952 /* BigBird-Bridging-Header.h */,
 			);
 			path = BigBird;
+			sourceTree = "<group>";
+		};
+		09FBD3611C1F0A0B0079A9F8 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				09FBD3621C1F0A210079A9F8 /* wind-Intermed-481_hifi.mp3 */,
+				09FBD3641C1F0EFF0079A9F8 /* CRUNCH_I-Intermed-566_hifi.mp3 */,
+				09FBD3661C1F10890079A9F8 /* BubblePo-Benjamin-8920_hifi.mp3 */,
+				09FBD3681C1F13D00079A9F8 /* Oowh_Pai-Nathan_H-7830_hifi.mp3 */,
+				09FBD36A1C1F148B0079A9F8 /* Floomp-Public_D-340_hifi.mp3 */,
+				09FBD36C1C1F16730079A9F8 /* handclap.wav */,
+			);
+			name = sound;
 			sourceTree = "<group>";
 		};
 		0C21C8F17147386088217294 /* Pods */ = {
@@ -217,11 +243,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09FBD3671C1F10890079A9F8 /* BubblePo-Benjamin-8920_hifi.mp3 in Resources */,
 				09384B751C147321006773C1 /* GameScene.sks in Resources */,
+				09FBD3651C1F0EFF0079A9F8 /* CRUNCH_I-Intermed-566_hifi.mp3 in Resources */,
+				09FBD36B1C1F148B0079A9F8 /* Floomp-Public_D-340_hifi.mp3 in Resources */,
 				09384B811C147321006773C1 /* LaunchScreen.storyboard in Resources */,
+				09FBD3631C1F0A210079A9F8 /* wind-Intermed-481_hifi.mp3 in Resources */,
 				09384B7E1C147321006773C1 /* Assets.xcassets in Resources */,
+				09FBD36D1C1F16730079A9F8 /* handclap.wav in Resources */,
 				09384B7C1C147321006773C1 /* Main.storyboard in Resources */,
 				09A4AE2B1C1C31B600C59952 /* GameStartScene.sks in Resources */,
+				09FBD3691C1F13D00079A9F8 /* Oowh_Pai-Nathan_H-7830_hifi.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

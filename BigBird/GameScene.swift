@@ -200,6 +200,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         tornato.position = CGPointMake(CGRectGetMidX(frame) + frame.width, CGRectGetMidY(frame) + offset)
         tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture.size())
         tornato.physicsBody?.dynamic = false
+        tornato.name = "tornato"
         tornato.runAction(moveAndRemovePies)
         tornato.physicsBody?.categoryBitMask = ColliderType.Object.rawValue
         tornato.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
@@ -227,6 +228,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         fish1.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX , 10 + offsetY)
         fish1.physicsBody = SKPhysicsBody(rectangleOfSize: Fish1Texture.size())
         fish1.physicsBody?.dynamic = false
+        fish1.name = "fish1"
         fish1.runAction(moveAndRemoveFish)
         fish1.physicsBody?.categoryBitMask = ColliderType.Fish1.rawValue
         fish1.physicsBody?.contactTestBitMask = ColliderType.Bird.rawValue
@@ -246,6 +248,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         fish2.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX*2 , 10 + offsetY)
         fish2.physicsBody = SKPhysicsBody(rectangleOfSize: Fish2Texture.size())
         fish2.physicsBody?.dynamic = false
+        fish2.name = "fish2"
         fish2.runAction(moveAndRemoveFish)
         fish2.physicsBody?.categoryBitMask = ColliderType.Fish2.rawValue
         fish2.physicsBody?.contactTestBitMask = ColliderType.Bird.rawValue
@@ -272,6 +275,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func showBestScoreTip(){
+        runAction(SKAction.playSoundFileNamed("handclap.wav", waitForCompletion: false))
         let pause = SKAction.moveByX(0, y: 0, duration: 5)
         let remove = SKAction.removeFromParent()
         bestSorceTipLabel.text = "恭喜你！破纪录了！"
@@ -299,6 +303,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         if gameStatus == .Playing {
+            runAction(SKAction.playSoundFileNamed("BubblePo-Benjamin-8920_hifi.mp3", waitForCompletion: false))
             energy -= 2
             progress.size.width -= 3.6
             energyLabel.text = "\(energy)/100"
@@ -317,6 +322,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         
         if contact.bodyA.categoryBitMask == ColliderType.Fish1.rawValue || contact.bodyB.categoryBitMask == ColliderType.Fish1.rawValue{
+            if contact.bodyA.node?.name == "fish1" {
+                runAction(SKAction.playSoundFileNamed("CRUNCH_I-Intermed-566_hifi.mp3", waitForCompletion: false))
+            }
             contact.bodyA.node?.removeFromParent()
             energy += 10
             energy = min(energy,100)
@@ -325,6 +333,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         if contact.bodyA.categoryBitMask == ColliderType.Fish2.rawValue || contact.bodyB.categoryBitMask == ColliderType.Fish2.rawValue{
+            if contact.bodyA.node?.name == "fish2" {
+                runAction(SKAction.playSoundFileNamed("CRUNCH_I-Intermed-566_hifi.mp3", waitForCompletion: false))
+            }
+
             contact.bodyA.node?.removeFromParent()
             energy += 15
             energy = min(energy,100)
@@ -335,6 +347,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Object.rawValue || contact.bodyB.categoryBitMask == ColliderType.Object.rawValue{
             if gameStatus != .Over {
                 gameStatus = .Over
+              
+
                 //当取得最高分时把分数发给排行榜
                 if distance == maxDistance{
                     GameKitHelper.shareInstance.reportScore(Int64(maxDistance), forLeaderBoardId: "com.baby.big")
@@ -343,6 +357,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 if let scene = GameStartScene(fileNamed: "GameStartScene"){
+                    //碰到飓风的声音
+                    if contact.bodyA.node?.name == "tornato" {
+                        scene.runAction(SKAction.playSoundFileNamed("wind-Intermed-481_hifi.mp3", waitForCompletion: false))
+                    }else{
+                        scene.runAction(SKAction.playSoundFileNamed("Oowh_Pai-Nathan_H-7830_hifi.mp3", waitForCompletion: false))
+                    }
                     scene.currentScore = distance
                     scene.bestScore = maxDistance
                     scene.gameOver = true
@@ -350,6 +370,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     let transtion = SKTransition.pushWithDirection(.Down, duration: 0.5)
                     view?.presentScene(scene, transition: transtion)
                 }
+                
             }
         }
     }

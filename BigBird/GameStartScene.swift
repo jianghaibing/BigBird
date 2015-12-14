@@ -29,6 +29,7 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         if !gameOver {
             setupBird()
             startGameButton = ButtonNode(normalName: "startGame", selectName: "") { () -> () in
+                self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
                 self.startGame()
             }
             startGameButton.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
@@ -60,6 +61,7 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
 
             
             let restartGameButton = ButtonNode(normalName: "restartGame", selectName: "") { () -> () in
+                self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
                 self.startGame()
             }
             restartGameButton.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
@@ -67,12 +69,14 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         }
         
         let leaderBoard = ButtonNode(normalName: "leaderBoard", selectName: "") { () -> () in
+            self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
             GameKitHelper.shareInstance.showGKGameCenterViewController(gameViewController)
         }
         leaderBoard.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 80)
         addChild(leaderBoard)
         
         let share = ButtonNode(normalName: "share", selectName: "") { () -> () in
+            self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
             var shareText = ""
             if self.gameOver{
                 shareText = "我在风狂大鸟中最高飞行了【\(self.bestScore)米】，快来和我比比看吧！"
