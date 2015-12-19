@@ -58,7 +58,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         setupBackground()
         
-        progressBackground.color = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
+        progressBackground.color = UIColor(red: 155/255, green: 155/255, blue: 155/255, alpha: 1)
         progressBackground.size = CGSizeMake(180, 30)
         progressBackground.anchorPoint = CGPointMake(0, 1)
         progressBackground.position = CGPointMake(CGRectGetMidX(frame)-90, frame.height)
@@ -99,8 +99,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         startLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) + 150)
         addChild(startLabel)
         
-        tapLabel = SKSpriteNode(imageNamed: "tap")
+        let tapTexture1 = SKTexture(imageNamed: "tap1")
+        let tapTexture2 = SKTexture(imageNamed: "tap2")
+        let tapAction = SKAction.animateWithTextures([tapTexture1,tapTexture2], timePerFrame: 0.5)
+        let tapForever = SKAction.repeatActionForever(tapAction)
+        tapLabel = SKSpriteNode(texture: tapTexture1)
         tapLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
+        tapLabel.runAction(tapForever)
         addChild(tapLabel)
         
         setupBird()
@@ -192,15 +197,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         let offset = CGFloat(arc4random_uniform(UInt32(frame.height/2.5))) - frame.height/5
-        let tornatoTexture = SKTexture(imageNamed: "tornado")
+        let tornatoTexture1 = SKTexture(imageNamed: "tornado1")
+        let tornatoTexture2 = SKTexture(imageNamed: "tornado2")
+        let blewAction = SKAction.animateWithTextures([tornatoTexture1,tornatoTexture2], timePerFrame: 0.2)
+        let blewForever = SKAction.repeatActionForever(blewAction)
+
         let moveTornato = SKAction.moveByX(-frame.width * 2, y: 0, duration:NSTimeInterval(frame.width/100))
         let removeTornato = SKAction.removeFromParent()
         let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
-        tornato = SKSpriteNode(texture: tornatoTexture)
+        tornato = SKSpriteNode(texture: tornatoTexture1)
         tornato.position = CGPointMake(CGRectGetMidX(frame) + frame.width, CGRectGetMidY(frame) + offset)
-        tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture.size())
+        tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture1.size())
         tornato.physicsBody?.dynamic = false
         tornato.name = "tornato"
+        tornato.runAction(blewForever)
         tornato.runAction(moveAndRemovePies)
         tornato.physicsBody?.categoryBitMask = ColliderType.Object.rawValue
         tornato.physicsBody?.contactTestBitMask = ColliderType.Object.rawValue
@@ -303,9 +313,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         if gameStatus == .Playing {
-            runAction(SKAction.playSoundFileNamed("BubblePo-Benjamin-8920_hifi.mp3", waitForCompletion: false))
             energy -= 2
             progress.size.width -= 3.6
+            switch energy{
+            case 75...100:
+                runAction(SKAction.playSoundFileNamed("BubblePo-Benjamin-8920_hifi.mp3", waitForCompletion: false))
+                progress.color = UIColor(red: 94/255, green: 202/255, blue: 138/255, alpha: 1)
+            case 50..<75:
+                runAction(SKAction.playSoundFileNamed("BubblePo-Benjamin-8920_hifi.mp3", waitForCompletion: false))
+                progress.color = UIColor(red: 245/255, green: 166/255, blue: 35/255, alpha: 1)
+            default:
+                let playSound = SKAction.playSoundFileNamed("6.wav", waitForCompletion: false)
+                runAction(playSound)
+                progress.color = UIColor(red: 208/255, green: 2/255, blue: 27/255, alpha: 1)
+            }
+            
             energyLabel.text = "\(energy)/100"
             bird.physicsBody?.velocity = CGVectorMake(0, 0)
             bird.physicsBody?.applyImpulse(CGVectorMake(0, CGFloat(energy)*0.8))

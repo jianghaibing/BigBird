@@ -134,7 +134,7 @@ extension GameStartScene:UMSocialUIDelegate{
         if platformName == UMShareToQQ {return}//解决掉QQ时在代理中设置分享内容奔溃的问题
         var urlStr = ""
         if platformName == UMShareToSina{
-            urlStr = appStoreDownLoadURL
+            urlStr = "下载地址："+appStoreDownLoadURL
         }
         if self.gameOver{
             socialData.shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻\(urlStr)"
