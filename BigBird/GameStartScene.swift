@@ -17,6 +17,7 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
     var gameOver = false
     
     override func didMoveToView(view: SKView) {
+        
         let gameViewController = ((UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController as! BigBirdNavigationController).topViewController as! GameViewController
         gameViewController.adBannerView?.hidden = false
         
@@ -24,6 +25,12 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         background.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
         background.zPosition = -5
         background.size.height = frame.size.height
+        let move = SKAction.moveByX(100, y: 0, duration: 10)
+        let scale = SKAction.scaleTo(1.2, duration: 10)
+        let moveAndScale = SKAction.sequence([move,scale])
+        let reversedMove = moveAndScale.reversedAction()
+        let moveAndReverse = SKAction.sequence([moveAndScale,reversedMove])
+        background.runAction(SKAction.repeatActionForever(moveAndReverse))
         addChild(background)
         
         if !gameOver {
@@ -100,6 +107,7 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         let flyForever = SKAction.repeatActionForever(fly)
         let bird = SKSpriteNode(texture: birdTexture1)
         bird.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) + 200)
+        bird.size = CGSizeMake(111, 89)
         bird.runAction(flyForever)
         addChild(bird)
         

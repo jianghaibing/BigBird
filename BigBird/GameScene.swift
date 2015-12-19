@@ -218,10 +218,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func setupFish1(){
         let offsetY = CGFloat(arc4random_uniform(100))
-        let randomDuration = NSTimeInterval(arc4random_uniform(12))
+        let randomDuration = NSTimeInterval(arc4random_uniform(2)) + 10
         let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
         let Fish1Texture = SKTexture(imageNamed: "fish1")
-        let moveFish = SKAction.moveByX(-frame.width * 3, y: 0, duration:max(10,randomDuration))
+        let moveFish = SKAction.moveByX(-frame.width * 3, y: 0, duration:randomDuration)
         let removeFish = SKAction.removeFromParent()
         let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish1 = SKSpriteNode(texture: Fish1Texture)
@@ -238,10 +238,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func setupFish2(){
         let offsetY = CGFloat(arc4random_uniform(110))
-        let randomDuration = NSTimeInterval(arc4random_uniform(18))
+        let randomDuration = NSTimeInterval(arc4random_uniform(3))+15
         let offsetX = CGFloat(arc4random_uniform(UInt32(frame.width)))
         let Fish2Texture = SKTexture(imageNamed: "fish2")
-        let moveFish = SKAction.moveByX(-frame.width * 4, y: 0, duration:max(15,randomDuration))
+        let moveFish = SKAction.moveByX(-frame.width * 4, y: 0, duration:randomDuration)
         let removeFish = SKAction.removeFromParent()
         let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish2 = SKSpriteNode(texture: Fish2Texture)

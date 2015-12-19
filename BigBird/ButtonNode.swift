@@ -54,6 +54,11 @@ class ButtonNode: SKNode {
         } else {
             sprite.texture = normalTexture
         }
+        performSelector("doCallBack", withObject: self, afterDelay: 0.1)
+        
+    }
+    
+    func doCallBack(){
         callback()
     }
 }

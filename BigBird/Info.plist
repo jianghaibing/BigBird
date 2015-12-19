@@ -26,17 +26,17 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>baby.weixin</string>
+			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxd930ea5d5a258f4f</string>
+				<string>wxf7ab7bdbde157fe7</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>baby.qq</string>
+			<string>qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>QQ41DD3F10</string>
@@ -65,15 +65,29 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>baby.weibo</string>
+			<string>weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb1172700456</string>
+				<string>sina.566d442b67e58e15870068a8</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>weixin</string>
+		<string>wechat</string>
+		<string>wtloginmqq2</string>
+		<string>mqqopensdkapiV3</string>
+		<string>mqqwpa</string>
+		<string>mqqbrowser</string>
+		<string>mqq</string>
+		<string>mqqapi</string>
+		<string>mqqopensdkapiV2</string>
+		<string>sinaweibohdsso</string>
+		<string>sinaweibosso</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
