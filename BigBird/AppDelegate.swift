@@ -15,15 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        UMSocialData.setAppKey("566d442b67e58e15870068a8")
-        UMSocialWechatHandler.setWXAppId("wxf7ab7bdbde157fe7", appSecret: "ef86ad879f9651b4cff86c8b2f2a389a", url: "http://www.umeng.com/social")
-        UMSocialQQHandler.setQQWithAppId("1105018640", appKey: "Pi0Hy7t1diZpgmfX", url: "http://www.umeng.com/social")
-        //UMSocialSinaSSOHandler.openNewSinaSSOWithAppKey("1172700456", redirectURL: "http://sns.whalecloud.com/sina2/callback")
+        UMSocialData.setAppKey(UMAppKey)
+        UMSocialWechatHandler.setWXAppId(weChatAppId, appSecret:weChatAppSecret , url: "http://www.umeng.com/social")
+        UMSocialQQHandler.setQQWithAppId(qqAppId, appKey: qqAPPKey, url: "http://www.umeng.com/social")
+        //UMSocialSinaSSOHandler.openNewSinaSSOWithAppKey(sinaAppKey, redirectURL: "http://sns.whalecloud.com/sina2/callback")
         UMSocialSinaHandler.openSSOWithRedirectURL("http://sns.whalecloud.com/sina2/callback")
         
-        UMSocialData.defaultData().extConfig.qqData.url = "https://itunes.apple.com/us/app/yao-yao-chi/id969372360?l=zh&ls=1&mt=8"//设置app下载地址,点击分享内容打开的链接
-        UMSocialData.defaultData().extConfig.wechatSessionData.url = "https://itunes.apple.com/us/app/yao-yao-chi/id969372360?l=zh&ls=1&mt=8"
-        
+        UMSocialData.defaultData().extConfig.qqData.url = appStoreDownLoadURL//设置app下载地址,点击分享内容打开的链接
+        UMSocialData.defaultData().extConfig.wechatSessionData.url = appStoreDownLoadURL
         //苹果审核，当应用不存在时隐藏
         UMSocialConfig.hiddenNotInstallPlatforms([UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline])
         

@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class GameStartScene: SKScene,UMSocialUIDelegate {
+class GameStartScene: SKScene{
     
     var currentScore:Int!
     var bestScore:Int!
@@ -85,13 +85,14 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
         let share = ButtonNode(normalName: "share", selectName: "") { () -> () in
             self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
             var shareText = ""
+            
             if self.gameOver{
-                shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧！👍👏🏻"
+                shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻"
             }else{
-                shareText = "我在玩【风狂大鸟】，快来跟我一起玩！👍👏🏻"
+                shareText = "我在玩【风狂大鸟】，快来跟我一起挑战排行榜吧！👍👏🏻"
             }
             
-            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: "566d442b67e58e15870068a8", shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
+            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: UMAppKey, shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
             
         }
         share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 160)
@@ -121,6 +122,26 @@ class GameStartScene: SKScene,UMSocialUIDelegate {
             let transtion = SKTransition.doorsOpenHorizontalWithDuration(1)
             view?.presentScene(gameScene, transition: transtion)
         }
+    }
+
+
+    
+}
+
+extension GameStartScene:UMSocialUIDelegate{
+    
+    func didSelectSocialPlatform(platformName: String!, withSocialData socialData: UMSocialData!) {
+        if platformName == UMShareToQQ {return}//解决掉QQ时在代理中设置分享内容奔溃的问题
+        var urlStr = ""
+        if platformName == UMShareToSina{
+            urlStr = appStoreDownLoadURL
+        }
+        if self.gameOver{
+            socialData.shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻\(urlStr)"
+        }else{
+            socialData.shareText = "我在玩【风狂大鸟】，快来跟我一起挑战排行榜吧！👍👏🏻\(urlStr)"
+        }
+        
     }
     
 }
