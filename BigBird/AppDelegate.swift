@@ -28,8 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UMSocialConfig.hiddenNotInstallPlatforms([UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline])
         
         //分享的标题
-        UMSocialData.defaultData().extConfig.wechatSessionData.title = "强烈推荐【疯狂大鸟】🐦"
-        UMSocialData.defaultData().extConfig.qqData.title = "强烈推荐【疯狂大鸟】🐦"
+        UMSocialData.defaultData().extConfig.wechatSessionData.title = "强烈推荐【风狂大鸟】🐦"
+        UMSocialData.defaultData().extConfig.qqData.title = "强烈推荐【风狂大鸟】🐦"
         
         return true
     }
