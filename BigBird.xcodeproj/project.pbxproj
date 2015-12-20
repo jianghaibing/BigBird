@@ -124,7 +124,6 @@
 		09384B711C147321006773C1 /* BigBird */ = {
 			isa = PBXGroup;
 			children = (
-				09FBD3611C1F0A0B0079A9F8 /* sound */,
 				09384B721C147321006773C1 /* AppDelegate.swift */,
 				09384B741C147321006773C1 /* GameScene.sks */,
 				09384B761C147321006773C1 /* GameScene.swift */,
@@ -140,6 +139,7 @@
 				09384B7F1C147321006773C1 /* LaunchScreen.storyboard */,
 				09384B821C147321006773C1 /* Info.plist */,
 				09A4AE361C1D7EB900C59952 /* BigBird-Bridging-Header.h */,
+				09FBD3611C1F0A0B0079A9F8 /* sound */,
 			);
 			path = BigBird;
 			sourceTree = "<group>";

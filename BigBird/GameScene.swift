@@ -207,7 +207,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let moveAndRemovePies = SKAction.sequence([moveTornato,removeTornato])
         tornato = SKSpriteNode(texture: tornatoTexture1)
         tornato.position = CGPointMake(CGRectGetMidX(frame) + frame.width, CGRectGetMidY(frame) + offset)
-        tornato.physicsBody = SKPhysicsBody(rectangleOfSize: tornatoTexture1.size())
+        tornato.physicsBody = SKPhysicsBody(texture: tornatoTexture2, size: tornato.size)
         tornato.physicsBody?.dynamic = false
         tornato.name = "tornato"
         tornato.runAction(blewForever)
@@ -236,7 +236,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish1 = SKSpriteNode(texture: Fish1Texture)
         fish1.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX , 10 + offsetY)
-        fish1.physicsBody = SKPhysicsBody(rectangleOfSize: Fish1Texture.size())
+        fish1.physicsBody = SKPhysicsBody(texture: Fish1Texture, size: fish1.size)
         fish1.physicsBody?.dynamic = false
         fish1.name = "fish1"
         fish1.runAction(moveAndRemoveFish)
@@ -256,7 +256,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let moveAndRemoveFish = SKAction.sequence([moveFish,removeFish])
         fish2 = SKSpriteNode(texture: Fish2Texture)
         fish2.position = CGPointMake(CGRectGetMidX(frame) + frame.width + offsetX*2 , 10 + offsetY)
-        fish2.physicsBody = SKPhysicsBody(rectangleOfSize: Fish2Texture.size())
+        fish2.physicsBody = SKPhysicsBody(texture: Fish2Texture, size: fish2.size)
         fish2.physicsBody?.dynamic = false
         fish2.name = "fish2"
         fish2.runAction(moveAndRemoveFish)
@@ -269,13 +269,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func setupShark(){
         let sharkTexture = SKTexture(imageNamed: "shark")
         let moveShark = SKAction.moveByX(0, y: 100, duration:0.5)
-        let pauseShark = SKAction.moveByX(0, y: 0, duration: 2)
+        let pauseShark = SKAction.waitForDuration(2)
+        let moveOut = SKAction.moveByX(0, y: -100, duration: 0.5)
         let removeShark = SKAction.removeFromParent()
-        let moveAndRemoveShark = SKAction.sequence([moveShark,pauseShark,removeShark])
+        let moveAndRemoveShark = SKAction.sequence([moveShark,pauseShark,moveOut,removeShark])
         shark = SKSpriteNode(texture: sharkTexture)
         shark.position = CGPointMake(CGRectGetMidX(frame) - 120 , -50)
         shark.zPosition = 1
-        shark.physicsBody = SKPhysicsBody(rectangleOfSize: sharkTexture.size())
+        shark.physicsBody = SKPhysicsBody(texture: sharkTexture, size: shark.size)
         shark.physicsBody?.dynamic = false
         shark.runAction(moveAndRemoveShark)
         shark.physicsBody?.categoryBitMask = ColliderType.Object.rawValue

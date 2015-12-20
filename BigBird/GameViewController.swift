@@ -22,6 +22,7 @@ class GameViewController: UIViewController,ADBannerViewDelegate {
             let skView = self.view as! SKView
             skView.showsFPS = false
             skView.showsNodeCount = false
+            skView.showsPhysics = false
             adBannerView = ADBannerView(adType: .Banner)
             adBannerView?.frame.origin = CGPointMake(0, 0)
             adBannerView?.backgroundColor = UIColor.clearColor()
