@@ -41,7 +41,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bg_wide" width="849" height="667"/>
+        <image name="bg_wide" width="1500" height="667"/>
         <image name="title" width="251" height="101"/>
     </resources>
 </document>
