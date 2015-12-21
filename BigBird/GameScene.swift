@@ -374,7 +374,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
 
                 //当取得最高分时把分数发给排行榜
                 if distance == maxDistance{
-                    GameKitHelper.shareInstance.reportScore(Int64(maxDistance), forLeaderBoardId: "com.baby.big")
+                    GameKitHelper.shareInstance.reportScore(Int64(maxDistance), forLeaderBoardId: leadboardID)
                 }
                 timer.invalidate()
                 NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
