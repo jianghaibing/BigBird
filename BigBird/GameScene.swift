@@ -50,6 +50,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var bestSorceTipLabel = SKLabelNode()
     
     override func didMoveToView(view: SKView) {
+        
         self.physicsWorld.contactDelegate = self
         
         maxDistance = NSUserDefaults.standardUserDefaults().objectForKey("maxDistance") as? NSInteger ?? 0
@@ -75,12 +76,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         energyLabel.fontName = "PingFang SC"
         energyLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 22)
         addChild(energyLabel)
-        
-//        let sun = SKSpriteNode(imageNamed: "sun")
-//        sun.position = CGPointMake(frame.width/2 - UIScreen.mainScreen().bounds.width/2 + 30, frame.height - 50)
-//        sun.zPosition = -1
-//        addChild(sun)
-        
+                
         distanceLabel.text = "当前:0M"
         distanceLabel.fontSize = 20
         distanceLabel.fontColor = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
@@ -124,6 +120,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if firstTimePlay{
             setupIntroduce()
         }
+    }
+    
+    func setupLightning(){
+        let offsetY1 = CGFloat(arc4random_uniform(100))+150
+        let offsetY2 = CGFloat(arc4random_uniform(50))+30
+        let offsetX1 = CGFloat(arc4random_uniform(UInt32(frame.width/2))) - frame.width/4
+        let offsetX2 = CGFloat(arc4random_uniform(UInt32(frame.width/2))) - frame.width/4
+        let lightning = LightningNode(size: size)
+        lightning.position = CGPointZero
+        lightning.startLightning(CGPointMake(CGRectGetMidX(frame)+offsetX1, frame.height - offsetY2), endPoint: CGPointMake(CGRectGetMidX(frame)+offsetX2, frame.height-offsetY2-offsetY1))
+        let duration = SKAction.waitForDuration(2)
+        let remove = SKAction.removeFromParent()
+        lightning.runAction(SKAction.sequence([duration,remove]))
+        self.addChild(lightning)
     }
     
     func setupRain(){
@@ -244,6 +254,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if distance % 20 == 0 {
             setupShark()
+        }
+        if distance % 30 == 0 {
+            setupLightning()
         }
     }
     
