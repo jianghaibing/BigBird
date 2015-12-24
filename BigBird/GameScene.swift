@@ -76,10 +76,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         energyLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 22)
         addChild(energyLabel)
         
-        let sun = SKSpriteNode(imageNamed: "sun")
-        sun.position = CGPointMake(frame.width/2 - UIScreen.mainScreen().bounds.width/2 + 30, frame.height - 50)
-        sun.zPosition = -1
-        addChild(sun)
+//        let sun = SKSpriteNode(imageNamed: "sun")
+//        sun.position = CGPointMake(frame.width/2 - UIScreen.mainScreen().bounds.width/2 + 30, frame.height - 50)
+//        sun.zPosition = -1
+//        addChild(sun)
         
         distanceLabel.text = "当前:0M"
         distanceLabel.fontSize = 20
@@ -90,7 +90,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         maxDistanceLabel.text = "最高:\(maxDistance)M"
         maxDistanceLabel.fontSize = 20
-        maxDistanceLabel.fontColor = UIColor(red: 82/255, green: 108/255, blue: 147/255, alpha: 1)
+        maxDistanceLabel.fontColor = UIColor(red: 94/255, green: 202/255, blue: 138/255, alpha: 1)
         maxDistanceLabel.fontName = "PingFang SC"
         maxDistanceLabel.position = CGPointMake(CGRectGetMidX(frame)+150, frame.height - 22)
         addChild(maxDistanceLabel)
@@ -109,6 +109,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         addChild(tapLabel)
         
         setupBird()
+        setupRain()
         
         let bottomBound = SKNode()
         bottomBound.position = CGPointMake(0, 0)
@@ -123,6 +124,26 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if firstTimePlay{
             setupIntroduce()
         }
+    }
+    
+    func setupRain(){
+        let rainTexture = SKTexture(imageNamed: "rain.png")
+        let emitterNode = SKEmitterNode()
+        emitterNode.particleTexture = rainTexture
+        emitterNode.particleBirthRate = 150.0
+        emitterNode.particleColor = SKColor.whiteColor()
+        emitterNode.particleSpeed = -450
+        emitterNode.particleSpeedRange = 150
+        emitterNode.particleLifetime = 2.0
+        emitterNode.particleScale = 0.4
+        emitterNode.particleScaleRange = 0.6
+        emitterNode.particleAlpha = 0.75
+        emitterNode.particleAlphaRange = 0.5
+        emitterNode.position = CGPoint(x: CGRectGetWidth(frame) / 2, y:
+            CGRectGetHeight(frame)-160)
+        emitterNode.particlePositionRange = CGVector(dx: CGRectGetMaxX(frame),
+            dy: 0)
+        addChild(emitterNode)
     }
     
     func setupIntroduce(){
