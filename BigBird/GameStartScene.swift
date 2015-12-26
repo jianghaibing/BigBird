@@ -77,10 +77,17 @@ class GameStartScene: SKScene{
         
         let leaderBoard = ButtonNode(normalName: "leaderBoard", selectName: "") { () -> () in
             self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
-            GameKitHelper.shareInstance.showGKGameCenterViewController(gameViewController)
+            GameKitHelper.shareInstance.showGKGameCenterViewController(gameViewController, leaderboard: true)
         }
         leaderBoard.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 80)
         addChild(leaderBoard)
+        
+        let achievement = ButtonNode(normalName: "achievement", selectName: "") { () -> () in
+            self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
+            GameKitHelper.shareInstance.showGKGameCenterViewController(gameViewController, leaderboard: false)
+        }
+        achievement.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 160)
+        addChild(achievement)
         
         let share = ButtonNode(normalName: "share", selectName: "") { () -> () in
             self.runAction(SKAction.playSoundFileNamed("Floomp-Public_D-340_hifi.mp3", waitForCompletion: false))
@@ -95,7 +102,7 @@ class GameStartScene: SKScene{
             UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: UMAppKey, shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
             
         }
-        share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 160)
+        share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 240)
         addChild(share)
     }
     

@@ -7,16 +7,23 @@
 //
 
 import SpriteKit
+import GameKit
 
 class GameScene: SKScene,SKPhysicsContactDelegate {
     
+    var fullyEat = 0//满能量的情况下连续吃鱼的次数
+    var onlyBigFish = false//仅吃大鱼
+    var onlySmallFish = false//仅吃小鱼
+    var isonly = true//用来标记是否仅吃大鱼或小鱼
     var energy:Int = 100
     var distance:Int = 0
+    var eatFishCount:Int = 0
     var maxDistance:Int = 0
     var tempMaxDistance:Int = 0//临时保存飞行最高纪录
     var alredayShowTip = false
     var timer:NSTimer!
     var firstTimePlay = true
+    var lastBirdY:CGFloat = 0
 
     enum GameStatus:UInt{
         case Ready = 0
@@ -348,6 +355,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         
         if gameStatus == .Playing {
+            var achievements = [GKAchievement]()
+            //当极度接近鲨鱼没死触发
+            if bird.position.y - shark.position.y > 159/2 && bird.position.y - shark.position.y <= 85{
+                achievements.append(AchievementsHelper.completeLiveSoOkAchievement())
+                GameKitHelper.shareInstance.reportAchievements(achievements)
+            }
+            
+            if lastBirdY - bird.position.y > frame.height {
+                achievements.append(AchievementsHelper.completeFreeFallAchievement())
+                GameKitHelper.shareInstance.reportAchievements(achievements)
+            }
+            
+            lastBirdY = bird.position.y
+            
             energy -= 2
             progress.size.width -= 3.6
             switch energy{
@@ -370,20 +391,29 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
   
     }
     
-   
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-    }
     
     //MARK: - Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
-        
+        var achievements = [GKAchievement]()
+
         if contact.bodyA.categoryBitMask == ColliderType.Fish1.rawValue || contact.bodyB.categoryBitMask == ColliderType.Fish1.rawValue{
             if contact.bodyA.node?.name == "fish1" {
                 runAction(SKAction.playSoundFileNamed("CRUNCH_I-Intermed-566_hifi.mp3", waitForCompletion: false))
             }
             contact.bodyA.node?.removeFromParent()
+            if energy >= 90 {
+                fullyEat++
+            }else{
+                fullyEat = 0
+            }
             energy += 10
+            eatFishCount++
+            //进吃小鱼的判断
+            onlySmallFish = true
+            if onlyBigFish{
+                isonly = false
+            }
+            
             energy = min(energy,100)
             progress.size.width = min(progress.size.width + 18 , 180)
             energyLabel.text = "\(energy)/100"
@@ -395,21 +425,53 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
 
             contact.bodyA.node?.removeFromParent()
+            if energy >= 85 {
+                fullyEat++
+            }else{
+                fullyEat = 0
+            }
             energy += 15
+            eatFishCount++
+            //仅吃大鱼的判断
+            onlyBigFish = true
+            if onlySmallFish{
+                isonly = false
+            }
+            
+            
+            onlySmallFish = false
             energy = min(energy,100)
             progress.size.width = min(progress.size.width + 27 , 180)
             energyLabel.text = "\(energy)/100"
+        }
+        //在满能量的情况下连续吃鱼10条
+        if fullyEat >= 10 {
+            achievements.append(AchievementsHelper.completefullyEatAchievement())
+            GameKitHelper.shareInstance.reportAchievements(achievements)
         }
         
         if contact.bodyA.categoryBitMask == ColliderType.Object.rawValue || contact.bodyB.categoryBitMask == ColliderType.Object.rawValue{
             if gameStatus != .Over {
                 gameStatus = .Over
               
-
-                //当取得最高分时把分数发给排行榜
-                if distance == maxDistance{
-                    GameKitHelper.shareInstance.reportScore(Int64(maxDistance), forLeaderBoardId: leadboardID)
+                //发送成就榜
+                if isonly && onlyBigFish && distance >= 1000{
+                    achievements.append(AchievementsHelper.completeonlyBigFishAchievement())
                 }
+                if isonly && onlySmallFish && distance >= 1000{
+                    achievements.append(AchievementsHelper.completeonlySmallFishAchievement())
+                }
+                
+                achievements.append(AchievementsHelper.completeJuniorAirmanAchievement(distance))
+                achievements.append(AchievementsHelper.completeAirmanAchievement(distance))
+                achievements.append(AchievementsHelper.completeSeniorAirmanAchievement(distance))
+                achievements.append(AchievementsHelper.completeProAirmanAchievement(distance))
+                GameKitHelper.shareInstance.reportAchievements(achievements)
+                
+                //把分数发给排行榜
+                GameKitHelper.shareInstance.reportScore(Int64(distance), forLeaderBoardId: flyingLeadboardID)
+                GameKitHelper.shareInstance.reportScore(Int64(eatFishCount), forLeaderBoardId: eatFishLeaderboardID)
+                
                 timer.invalidate()
                 NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
                 NSUserDefaults.standardUserDefaults().synchronize()

@@ -60,7 +60,17 @@ class GameKitHelper: NSObject,GKGameCenterControllerDelegate {
         }
     }
     
-    func showGKGameCenterViewController(viewController:UIViewController!){
+    func reportAchievements(achievements:[GKAchievement]){
+        if !gameCenterEnabled{
+            print("用户没认证")
+            return
+        }
+        GKAchievement.reportAchievements(achievements) { (error) -> Void in
+            self.lastError = error
+        }
+    }
+    
+    func showGKGameCenterViewController(viewController:UIViewController!,leaderboard:Bool){
         if !gameCenterEnabled{
             print("用户没认证")
             return
@@ -68,7 +78,11 @@ class GameKitHelper: NSObject,GKGameCenterControllerDelegate {
         
         let gameCenterViewController = GKGameCenterViewController()
         gameCenterViewController.gameCenterDelegate = self
-        gameCenterViewController.viewState = .Leaderboards
+        if leaderboard {
+            gameCenterViewController.viewState = .Leaderboards
+        }else{
+            gameCenterViewController.viewState = .Achievements
+        }
         viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
         
         
