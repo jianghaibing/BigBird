@@ -21,7 +21,7 @@ class GameStartScene: SKScene{
         let gameViewController = ((UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController as! BigBirdNavigationController).topViewController as! GameViewController
         gameViewController.adBannerView?.hidden = false
         
-        let background = SKSpriteNode(imageNamed: "bg_wide")
+        let background = SKSpriteNode(imageNamed: "bg_wide-1")
         background.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame))
         background.zPosition = -5
         background.size.height = frame.size.height
