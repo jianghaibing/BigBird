@@ -21,10 +21,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var maxDistance:Int = 0
     var tempMaxDistance:Int = 0//临时保存飞行最高纪录
     var alredayShowTip = false
-    var timer:NSTimer!
     var firstTimePlay = true
     var lastBirdY:CGFloat = 0
-
+    
     enum GameStatus:UInt{
         case Ready = 0
         case Playing = 1
@@ -128,6 +127,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             setupIntroduce()
         }
     }
+    
     
     func setupLightning(){
         let offsetY1 = CGFloat(arc4random_uniform(100))+150
@@ -345,7 +345,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             bird.physicsBody?.dynamic = true
             startLabel.removeFromParent()
             tapLabel.removeFromParent()
-            timer = NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
+            (UIApplication.sharedApplication().delegate as! AppDelegate).timer = NSTimer.scheduledTimerWithTimeInterval( 2, target: self, selector: "setupTornato", userInfo: nil, repeats: true)
         }
 
         if firstTimePlay{
@@ -472,7 +472,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 GameKitHelper.shareInstance.reportScore(Int64(distance), forLeaderBoardId: flyingLeadboardID)
                 GameKitHelper.shareInstance.reportScore(Int64(eatFishCount), forLeaderBoardId: eatFishLeaderboardID)
                 
-                timer.invalidate()
+                (UIApplication.sharedApplication().delegate as! AppDelegate).timer!.invalidate()
                 NSUserDefaults.standardUserDefaults().setInteger(maxDistance, forKey: "maxDistance")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 if let scene = GameStartScene(fileNamed: "GameStartScene"){

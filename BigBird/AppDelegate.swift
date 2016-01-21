@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var timer:NSTimer?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UMSocialData.setAppKey(UMAppKey)
@@ -23,11 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UMSocialData.defaultData().extConfig.qqData.url = appStoreDownLoadURL//设置app下载地址,点击分享内容打开的链接
         UMSocialData.defaultData().extConfig.wechatSessionData.url = appStoreDownLoadURL
+        UMSocialData.defaultData().extConfig.wechatTimelineData.url = appStoreDownLoadURL
         //苹果审核，当应用不存在时隐藏
         UMSocialConfig.hiddenNotInstallPlatforms([UMShareToQQ,UMShareToWechatSession,UMShareToWechatTimeline])
         
         //分享的标题
         UMSocialData.defaultData().extConfig.wechatSessionData.title = "强烈推荐【风狂大鸟】🐦"
+        UMSocialData.defaultData().extConfig.wechatTimelineData.title = "强烈推荐【风狂大鸟】🐦"
         UMSocialData.defaultData().extConfig.qqData.title = "强烈推荐【风狂大鸟】🐦"
         
         return true
@@ -46,8 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        if let timer = timer{
+            timer.fireDate = NSDate.distantFuture()
+        }
+        
+        
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -57,9 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
+    
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if let timer = timer{
+            timer.fireDate = NSDate()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {

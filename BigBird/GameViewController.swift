@@ -9,10 +9,12 @@
 import UIKit
 import SpriteKit
 import iAd
+import GoogleMobileAds
 
 class GameViewController: UIViewController,ADBannerViewDelegate {
     
-    var adBannerView:ADBannerView?
+    @IBOutlet weak var adBannerView: GADBannerView!
+//    var adBannerView:ADBannerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,16 +25,22 @@ class GameViewController: UIViewController,ADBannerViewDelegate {
             skView.showsFPS = false
             skView.showsNodeCount = false
             skView.showsPhysics = false
-            adBannerView = ADBannerView(adType: .Banner)
-            adBannerView?.frame.origin = CGPointMake(0, 0)
-            adBannerView?.backgroundColor = UIColor.clearColor()
-            adBannerView?.delegate = self
+            //使用adMob
+            adBannerView.adUnitID = "ca-app-pub-6026937026381965/9502816131"
+            adBannerView.rootViewController = self
+            adBannerView .loadRequest(GADRequest())
+            
+            
+//            adBannerView = ADBannerView(adType: .Banner)
+//            adBannerView?.frame.origin = CGPointMake(0, 0)
+//            adBannerView?.backgroundColor = UIColor.clearColor()
+//            adBannerView?.delegate = self
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
-            skView.addSubview(adBannerView!)
+           
             skView.presentScene(scene)
         }
     }
@@ -46,11 +54,11 @@ class GameViewController: UIViewController,ADBannerViewDelegate {
         return true
     }
     
-    func bannerViewDidLoadAd(banner: ADBannerView!) {
-        print("已经载入广告")
-    }
-    
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-        print(error)
-    }
+//    func bannerViewDidLoadAd(banner: ADBannerView!) {
+//        print("已经载入广告")
+//    }
+//    
+//    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+//        print(error)
+//    }
 }

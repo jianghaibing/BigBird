@@ -16,9 +16,26 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MkQ-rL-l4U" customClass="GADBannerView">
+                                <rect key="frame" x="140" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="XYI-RX-nEs"/>
+                                    <constraint firstAttribute="height" constant="50" id="xk7-yw-NFg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MkQ-rL-l4U" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="DWE-uo-ONw"/>
+                            <constraint firstItem="MkQ-rL-l4U" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="ETd-fA-EAS"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KGD-qM-9PQ"/>
+                    <connections>
+                        <outlet property="adBannerView" destination="MkQ-rL-l4U" id="75A-dY-jRz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
