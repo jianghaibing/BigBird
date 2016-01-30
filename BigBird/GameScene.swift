@@ -83,14 +83,14 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         energyLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 22)
         addChild(energyLabel)
                 
-        distanceLabel.text = "当前:0M"
+        distanceLabel.text = "CS:0M"
         distanceLabel.fontSize = 20
         distanceLabel.fontColor = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
         distanceLabel.fontName = "PingFang SC"
         distanceLabel.position = CGPointMake(CGRectGetMidX(frame)-150, frame.height - 22)
         addChild(distanceLabel)
         
-        maxDistanceLabel.text = "最高:\(maxDistance)M"
+        maxDistanceLabel.text = "BS:\(maxDistance)M"
         maxDistanceLabel.fontSize = 20
         maxDistanceLabel.fontColor = UIColor(red: 94/255, green: 202/255, blue: 138/255, alpha: 1)
         maxDistanceLabel.fontName = "PingFang SC"
@@ -225,9 +225,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func setupTornato(){
         distance += 5
-        distanceLabel.text = "当前:"+"\(distance)"+"M"
+        distanceLabel.text = "CS:"+"\(distance)"+"M"
         maxDistance = max(maxDistance,distance)
-        maxDistanceLabel.text = "最高:"+"\(maxDistance)"+"M"
+        maxDistanceLabel.text = "BS:"+"\(maxDistance)"+"M"
         
         if maxDistance > tempMaxDistance && tempMaxDistance != 0 && !alredayShowTip{
             showBestScoreTip()
@@ -330,8 +330,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         runAction(SKAction.playSoundFileNamed("handclap.wav", waitForCompletion: false))
         let pause = SKAction.moveByX(0, y: 0, duration: 5)
         let remove = SKAction.removeFromParent()
-        bestSorceTipLabel.text = "恭喜你！破纪录了！"
-        bestSorceTipLabel.fontSize = 30
+        bestSorceTipLabel.text = "Congratulation！Record-breaking！"
+        bestSorceTipLabel.fontSize = 20
         bestSorceTipLabel.fontName = "PingFang SC"
         bestSorceTipLabel.fontColor = UIColor(red: 245/255, green: 161/255, blue: 49/255, alpha: 1)
         bestSorceTipLabel.position = CGPointMake(CGRectGetMidX(frame), frame.height - 80)

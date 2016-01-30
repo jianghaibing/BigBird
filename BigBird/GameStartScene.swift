@@ -47,7 +47,7 @@ class GameStartScene: SKScene{
             addChild(scoreBoard)
             
             let currentScoreLabel = SKLabelNode(fontNamed: "PingFang SC")
-            currentScoreLabel.text = "当前飞行：\(currentScore)M"
+            currentScoreLabel.text = "Current Score：\(currentScore)M"
             currentScoreLabel.fontSize = 24
             currentScoreLabel.fontColor = UIColor.whiteColor()
             currentScoreLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+127)
@@ -55,7 +55,7 @@ class GameStartScene: SKScene{
             addChild(currentScoreLabel)
             
             let bestScoreLabel = SKLabelNode(fontNamed: "PingFang SC")
-            bestScoreLabel.text = "最高飞行：\(bestScore)M"
+            bestScoreLabel.text = "Best Score：\(bestScore)M"
             bestScoreLabel.fontSize = 24
             bestScoreLabel.fontColor = UIColor.whiteColor()
             bestScoreLabel.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame)+87)
@@ -94,12 +94,12 @@ class GameStartScene: SKScene{
             var shareText = ""
             
             if self.gameOver{
-                shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻"
+                shareText = "I am playing [Bird VS Wind],and got best score【\(self.bestScore)M】，come and play with me!👍👏🏻 download address:" + appStoreDownLoadURL
             }else{
-                shareText = "我在玩【风狂大鸟】，快来跟我一起挑战排行榜吧！👍👏🏻"
+                shareText = "I am playing [Bird VS Wind],come and play with me👍👏🏻 download address:" + appStoreDownLoadURL
             }
             
-            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: UMAppKey, shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToQQ,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina], delegate: self)
+            UMSocialSnsService.presentSnsIconSheetView(gameViewController, appKey: UMAppKey, shareText: shareText, shareImage: UIImage(named: "sharedImage"), shareToSnsNames: [UMShareToFacebook,UMShareToTwitter,UMShareToInstagram,UMShareToWhatsapp], delegate: self)
             
         }
         share.position = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) - 240)
@@ -137,18 +137,18 @@ class GameStartScene: SKScene{
 
 extension GameStartScene:UMSocialUIDelegate{
     
-    func didSelectSocialPlatform(platformName: String!, withSocialData socialData: UMSocialData!) {
-        if platformName == UMShareToQQ {return}//解决掉QQ时在代理中设置分享内容奔溃的问题
-        var urlStr = ""
-        if platformName == UMShareToSina{
-            urlStr = "下载地址："+appStoreDownLoadURL
-        }
-        if self.gameOver{
-            socialData.shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻\(urlStr)"
-        }else{
-            socialData.shareText = "我在玩【风狂大鸟】，快来跟我一起挑战排行榜吧！👍👏🏻\(urlStr)"
-        }
-        
-    }
+//    func didSelectSocialPlatform(platformName: String!, withSocialData socialData: UMSocialData!) {
+//        if platformName == UMShareToQQ {return}//解决掉QQ时在代理中设置分享内容奔溃的问题
+//        var urlStr = ""
+//        if platformName == UMShareToSina{
+//            urlStr = "下载地址："+appStoreDownLoadURL
+//        }
+//        if self.gameOver{
+//            socialData.shareText = "我在【风狂大鸟】中最高飞行了【\(self.bestScore)米】，快来和我比比看吧，我在排行榜等你哦！👍👏🏻\(urlStr)"
+//        }else{
+//            socialData.shareText = "我在玩【风狂大鸟】，快来跟我一起挑战排行榜吧！👍👏🏻\(urlStr)"
+//        }
+//        
+//    }
     
 }

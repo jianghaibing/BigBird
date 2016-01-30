@@ -550,7 +550,7 @@
 					"$(PROJECT_DIR)/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = F94JBNWYFR.com.ibaby.birdBird;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibaby.birdVSwind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BigBird/BigBird-Bridging-Header.h";
@@ -583,7 +583,7 @@
 					"$(PROJECT_DIR)/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = F94JBNWYFR.com.ibaby.birdBird;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibaby.birdVSwind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BigBird/BigBird-Bridging-Header.h";

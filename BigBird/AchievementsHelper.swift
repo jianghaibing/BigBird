@@ -13,15 +13,15 @@ class AchievementsHelper{
     
     struct Constants {
 
-        static let juniorAirmanID = "F94JBNWYFR.com.ibaby.birdBird.juniorAirman"
-        static let airmanId = "F94JBNWYFR.com.ibaby.birdBird.airman"
-        static let seniorAirmanID = "F94JBNWYFR.com.ibaby.birdBird.seniorAirman"
-        static let proAirmanID = "F94JBNWYFR.com.ibaby.birdBird.proAirman"
-        static let fullyEatID = "F94JBNWYFR.com.ibaby.birdBird.fullyEat"
-        static let liveSoOKID = "F94JBNWYFR.com.ibaby.birdBird.liveSoOK"
-        static let freeFallID = "F94JBNWYFR.com.ibaby.birdBird.freeFall"
-        static let onlyBigFishID = "F94JBNWYFR.com.ibaby.birdBird.onlyBigFish"
-        static let onlySmallFishID = "F94JBNWYFR.com.ibaby.birdBird.onlySmallFish"
+        static let juniorAirmanID = "JuniorAirman_achievement"
+        static let airmanId = "Airman_achievement"
+        static let seniorAirmanID = "SeniorAirman_achievement"
+        static let proAirmanID = "WindAirman_achievement"
+        static let fullyEatID = "FullyEat_achievement"
+        static let liveSoOKID = "AliveSoOK_achievement"
+        static let freeFallID = "FreeFall_achivement"
+        static let onlyBigFishID = "OnlyBigFish_achievement"
+        static let onlySmallFishID = "OnlySmallFish_achievement"
     }
     
     class func completeJuniorAirmanAchievement(distance:Int)->GKAchievement{
